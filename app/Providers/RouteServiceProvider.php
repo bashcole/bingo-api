@@ -31,7 +31,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         Route::bind('board', function (string $value) {
-            return Board::find(Hashids::decode($value)[0])->firstOrFail();
+            return Board::where('id',Hashids::decode($value)[0])->firstOrFail();
         });
 
         $this->routes(function () {
