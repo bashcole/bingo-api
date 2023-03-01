@@ -23,9 +23,8 @@ class BoardController extends Controller
         ], 201);
     }
 
-    public function show($id)
+    public function show(Board $board)
     {
-        $board = Board::find(Hashids::decode($id)[0]);
 
         if (empty($board)) {
             return [
@@ -47,9 +46,8 @@ class BoardController extends Controller
 
     }
 
-    public function update($id, Request $request)
+    public function update(Board $board, Request $request)
     {
-        $board = Board::find(Hashids::decode($id)[0]);
         if ($request->has('cells')) {
             $board->cells = $request->input('cells');
         }
@@ -60,9 +58,8 @@ class BoardController extends Controller
         $board->save();
     }
 
-    public function over($id, Request $request)
+    public function over(Board $board, Request $request)
     {
-        $board = Board::find(Hashids::decode($id)[0]);
         $board->score = abs(100 - (100 - count($board->roulette)));
         $board->type = 'finished';
         $board->save();
@@ -72,9 +69,8 @@ class BoardController extends Controller
         ];
     }
 
-    public function next($id)
+    public function next(Board $board)
     {
-        $board = Board::findOrFail(Hashids::decode($id)[0]);
         $roulette = collect($board->roulette);
 
         $randomKey = rand(0, $roulette->count() - 1);

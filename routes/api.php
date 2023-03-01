@@ -24,7 +24,7 @@ Route::resource('board', BoardController::class, [
 ]);
 
 Route::controller(BoardController::class)->group(function() {
-    Route::get('/board/over/{id}', 'over')->name('board.over');
-    Route::get('/board/next/{id}', 'next')->name('board.next');
+    Route::get('/board/over/{board}', 'over')->name('board.over');
+    Route::get('/board/next/{board}', 'next')->name('board.next');
 });
 Route::get('/leaderboard', [LeaderboardController::class, 'index'])->name('leaderboard');

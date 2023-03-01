@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\Board;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Route;
+use Vinkla\Hashids\Facades\Hashids;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,10 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+
+        Route::bind('board', function (string $value) {
+            return Board::find(Hashids::decode($value)[0])->firstOrFail();
+        });
 
         $this->routes(function () {
             Route::middleware('api')
